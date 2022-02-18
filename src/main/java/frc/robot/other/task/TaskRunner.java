@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.other.task;
+package frc.robot.other.task;
 
-import androidx.annotation.NonNull;
-
-import org.firstinspires.ftc.teamcode.other.Utils;
+import frc.robot.other.Utils;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -39,7 +37,7 @@ public class TaskRunner {
 	 * @deprecated Use TaskManager.attachTaskRunner() instead
 	 */
 	@Deprecated
-	public void attachToManager(String name, @NonNull TaskManager taskManager){
+	public void attachToManager(String name, TaskManager taskManager){
 		taskManager.attachTaskRunner(name, this);
 	}
 
@@ -88,7 +86,7 @@ public class TaskRunner {
 	}
 
 	//sequential
-	public void addSequentialTask(@NonNull Task task){
+	public void addSequentialTask(Task task){
 		task.start();
 		sequentialTasks.add(task);
 	}

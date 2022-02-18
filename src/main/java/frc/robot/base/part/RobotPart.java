@@ -1,5 +1,10 @@
 package frc.robot.base.part;
 
+import frc.robot.other.task.TaskRunner;
+import frc.robot.other.task.Task;
+
+import frc.robot.base.Robot;
+
 public class RobotPart {
     private String name;
     public Robot robot;

@@ -1,55 +1,46 @@
-package org.firstinspires.ftc.teamcode.other.input;
-
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.other.Utils;
+package frc.robot.other.input;
 
 import java.util.function.Function;
 
-public class InputSupplierEx extends InputSupplier<Float>{
+public class InputSupplierEx<INPUT> extends InputSupplier<INPUT, Float>{
 	private float minRegisterVal;
 	//private int multiPressMaxTime; //add in later
 	private boolean wasButtonPressed = false;
 	private long lastButtonRelease = System.currentTimeMillis();
 	//private int numTimesPressed = 0; //add in later
 
-	public InputSupplierEx(Function<Gamepad, Float> supplyFunction, Gamepad gamepad, float minRegisterVal) {
-		super(supplyFunction, gamepad);
+	public InputSupplierEx(Function<INPUT, Float> supplyFunction, INPUT divice, float minRegisterVal) {
+		super(supplyFunction, divice);
 		this.minRegisterVal = minRegisterVal;
 	}
 
-	public InputSupplierEx(Function<Gamepad, Float> supplyFunction, Utils.GamepadNum gamepadNum, float minRegisterVal) {
-		super(supplyFunction, gamepadNum);
-		this.minRegisterVal = minRegisterVal;
-	}
-
-	public InputSupplierEx(Function<Gamepad, Float> supplyFunction) {
+	public InputSupplierEx(Function<INPUT, Float> supplyFunction) {
 		super(supplyFunction);
 		minRegisterVal = 0.1f;
 	}
 
-	boolean getButtonHeld(Gamepad gamepad){
-		return get(gamepad) > minRegisterVal;
+	boolean getButtonHeld(INPUT divice){
+		return get(divice) > minRegisterVal;
 	}
 
 	boolean getButtonHeld(){
-		return getButtonHeld(gamepad);
+		return getButtonHeld(divice);
 	}
 
-	boolean getButtonHeld(Gamepad gamepad, int time)
+	boolean getButtonHeld(INPUT divice, int time)
 	{
-		if(getButtonHeld(gamepad))
+		if(getButtonHeld(divice))
 		{
 			return System.currentTimeMillis() - lastButtonRelease > time;
 		}
 		else lastButtonRelease = System.currentTimeMillis();
 		return false;
 	}
-	boolean getButtonHeld(int time){return getButtonHeld(gamepad, time);}
+	boolean getButtonHeld(int time){return getButtonHeld(divice, time);}
 
-	boolean getButtonPressed(Gamepad gamepad)
+	boolean getButtonPressed(INPUT divice)
 	{
-		if(getButtonHeld(gamepad))
+		if(getButtonHeld(divice))
 		{
 			if(!wasButtonPressed)
 			{
@@ -60,11 +51,11 @@ public class InputSupplierEx extends InputSupplier<Float>{
 		else wasButtonPressed = false;
 		return false;
 	}
-	boolean getButtonPressed(){return getButtonPressed(gamepad);}
+	boolean getButtonPressed(){return getButtonPressed(divice);}
 
-	boolean getButtonReleased(Gamepad gamepad)
+	boolean getButtonReleased(INPUT divice)
 	{
-		if(getButtonHeld(gamepad)) wasButtonPressed = true;
+		if(getButtonHeld(divice)) wasButtonPressed = true;
 		else if(wasButtonPressed)
 		{
 			wasButtonPressed = false;
@@ -72,5 +63,5 @@ public class InputSupplierEx extends InputSupplier<Float>{
 		}
 		return false;
 	}
-	boolean getButtonReleased(){return getButtonReleased(gamepad);}
+	boolean getButtonReleased(){return getButtonReleased(divice);}
 }

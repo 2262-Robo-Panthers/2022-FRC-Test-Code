@@ -1,40 +1,30 @@
-package org.firstinspires.ftc.teamcode.other.input;
-
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.other.Utils;
+package frc.robot.other.input;
 
 import java.util.function.Function;
 
-public class RampedInputSupplier extends InputSupplier<Float> {
+public class RampedInputSupplier<INPUT> extends InputSupplier<INPUT, Float> {
 	float ramp = 0;
 	float currentVal = 0;
 	boolean brakeAt0 = false;
 
-	public RampedInputSupplier(Function<Gamepad, Float> supplyFunction, Gamepad gamepad, float ramp, boolean brakeAt0) {
-		super(supplyFunction, gamepad);
+	public RampedInputSupplier(Function<INPUT, Float> supplyFunction, INPUT divice, float ramp, boolean brakeAt0) {
+		super(supplyFunction, divice);
 		this.ramp = ramp;
 		this.brakeAt0 = brakeAt0;
 	}
 
-	public RampedInputSupplier(Function<Gamepad, Float> supplyFunction, Utils.GamepadNum gamepadNum, float ramp, boolean brakeAt0) {
-		super(supplyFunction, gamepadNum);
-		this.ramp = ramp;
-		this.brakeAt0 = brakeAt0;
-	}
-
-	public RampedInputSupplier(Function<Gamepad, Float> supplyFunction, float ramp, boolean brakeAt0) {
+	public RampedInputSupplier(Function<INPUT, Float> supplyFunction, float ramp, boolean brakeAt0) {
 		super(supplyFunction);
 		this.ramp = ramp;
 		this.brakeAt0 = brakeAt0;
 	}
 
-	public RampedInputSupplier(Function<Gamepad, Float> supplyFunction) {
+	public RampedInputSupplier(Function<INPUT, Float> supplyFunction) {
 		super(supplyFunction);
 	}
 
-	public float getRamped(Gamepad gamepad){
-		float target = get(gamepad);
+	public float getRamped(INPUT divice){
+		float target = get(divice);
 
 		if(brakeAt0 && target == 0)
 			reset();
@@ -53,7 +43,7 @@ public class RampedInputSupplier extends InputSupplier<Float> {
 	}
 
 	public float getRamped(){
-		return getRamped(gamepad);
+		return getRamped(divice);
 	}
 
 	public void reset(){

@@ -1,9 +1,4 @@
-package org.firstinspires.ftc.teamcode.other;
-
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.base.Robot;
-import org.firstinspires.ftc.teamcode.base.part.RobotPart;
+package frc.robot.other;
 
 import java.util.Hashtable;
 
@@ -107,19 +102,6 @@ public class Utils {
             int c = getNumOfSameName(table, name);
             if(c != 0) name = name + "(" + c + ")";
             return name;
-        }
-    }
-
-    public enum GamepadNum{
-        ONE,
-        TWO;
-
-        public Gamepad getGamepad(Robot robot){
-            if(this == GamepadNum.ONE)
-                return robot.gamepad1;
-            else if(this == GamepadNum.TWO)
-                return robot.gamepad2;
-            return null;
         }
     }
 }

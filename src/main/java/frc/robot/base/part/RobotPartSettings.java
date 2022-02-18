@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.base.part;
+package frc.robot.base.part;
 
-import org.firstinspires.ftc.teamcode.base.Robot;
+import frc.robot.base.Robot;
 
 public class RobotPartSettings {
     public boolean makeTaskRunner = true;
-    public boolean makeTeleOpCodeTask = true;
-    public boolean makeTelemetryTask = true;
 
     boolean initialized = false;
     boolean started = false;
@@ -13,7 +11,6 @@ public class RobotPartSettings {
 
 
     public void init(Robot robot){
-        makeTeleOpCodeTask = robot.isTeleOpMode;
         onInit(robot);
     }
 
