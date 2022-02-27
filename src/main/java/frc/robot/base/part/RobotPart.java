@@ -3,16 +3,16 @@ package frc.robot.base.part;
 import frc.robot.other.task.TaskRunner;
 import frc.robot.other.task.Task;
 
-import frc.robot.base.Robot;
+import frc.robot.base.RobotContainer;
 
 public class RobotPart {
     private String name;
-    public Robot robot;
+    public RobotContainer robot;
     public RobotPartHardware hardware;
     public RobotPartSettings settings;
     private TaskRunner taskRunner;
 
-    public RobotPart(String name, Robot robot, RobotPartHardware hardware, RobotPartSettings settings){
+    public RobotPart(String name, RobotContainer robot, RobotPartHardware hardware, RobotPartSettings settings){
         this.name = name;
         this.robot = robot;
         this.hardware = hardware;
@@ -29,70 +29,58 @@ public class RobotPart {
         return taskRunner;
     }
 
-    private void addTeleOpToTaskRunner(){
-        Task t = new Task();
-        t.addStep(() -> {teleOpCode();}, () -> (true));
-        taskRunner.addTask("TeleOp Code", t, true, true);
+    public void makeTeleOpTask(){
+        Task t = new Task("teleOp");
+        t.addStep(() -> {
+            onTeleOp();
+        }, () -> (!settings.teleOpRunning));
+        taskRunner.addTask(t, true, false);
     }
 
-    private void addTelemetryToTaskRunner(){
-        Task t = new Task();
-        t.addStep(() -> {telemetry();}, () -> (true));
-        taskRunner.addTask("Telemetry Code", t, true, true);
+    public Task getTeleOpTask(boolean getBackgroundTask){       
+        if(getBackgroundTask)
+            return taskRunner.getBackgroundTask("teleOp");
+        return taskRunner.getTask("teleOp");
     }
 
     public void init(){
         if(hardware != null) hardware.onInit(robot);
-        settings.init(robot);
+        settings.onInit(robot);
         if(settings.makeTaskRunner){
             makeTaskRunner();
-            if(settings.makeTeleOpCodeTask)addTeleOpToTaskRunner();
-            if(settings.makeTelemetryTask)addTelemetryToTaskRunner();
+            if(settings.makeTeleOpTask)
+                makeTeleOpTask();
         }
         onInit();
         settings.initialized = true;
     }
 
-    public void start(){
-        if(settings.canStart()) {
-            onStart();
-            settings.started = true;
-        }
-    }
-
     public void pause(){
         if(taskRunner != null) taskRunner.stop();
-        settings.running = false;
         onPause();
+        settings.running = false;
     }
 
     public void pauseTeleOp(){
         onTeleOpPause();
-        taskRunner.getBackgroundTask("TeleOp Code").pause();
-    }
-
-    public void pauseTelemetry(){
-        taskRunner.getBackgroundTask("Telemetry Code").pause();
+        settings.teleOpRunning = false;
     }
 
     public void unpause(){
         if(taskRunner != null) taskRunner.start();
-        settings.running = true;
         onUnpause();
+        settings.running = true;
     }
 
     public void unpauseTeleOp(){
         onTeleOpUnpause();
-        taskRunner.getTask("TeleOp Code").unpause();
-    }
-
-    public void unpauseTelemetry(){
-        taskRunner.getBackgroundTask("Telemetry Code").unpause();
+        getTeleOpTask(true).start();
+        settings.teleOpRunning = true;
     }
 
     public void stop(){
         onStop();
-        settings.started = false;
+        settings.initialized = false;
     }
 
     ////////////////////
@@ -102,19 +90,15 @@ public class RobotPart {
 
     public void onInit(){}
 
-    public void onStart(){}
-
     public void onPause(){}
 
     public void onUnpause(){}
 
     public void onStop(){}
 
-    public void teleOpCode(){}
+    public void onTeleOp(){}
 
     public void onTeleOpPause(){}
 
     public void onTeleOpUnpause(){}
-
-    public void telemetry(){}
 }

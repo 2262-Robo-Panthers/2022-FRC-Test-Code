@@ -4,26 +4,48 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.base.RobotContainer;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final PWMSparkMax m_leftMotor = new PWMSparkMax(0);
-  private final PWMSparkMax m_rightMotor = new PWMSparkMax(1);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
-  private final Joystick m_stick = new Joystick(0);
+  
+  RobotContainer robot = new RobotContainer();
+
+  @Override
+  public void robotInit() {
+    robot.init();
+  }
+
+  @Override
+  public void robotPeriodic() {
+    robot.run();
+  }
+
+  @Override
+  public void teleopInit() {
+    
+  }
 
   @Override
   public void teleopPeriodic() {
-    // Drive with arcade drive.
-    // That means that the Y axis drives forward
-    // and backward, and the X turns left and right.
-    m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
+  }
+
+  @Override
+  public void autonomousInit() {
+    
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    
+  }
+
+  @Override
+  public void disabledInit(){
+    robot.stop();
   }
 }

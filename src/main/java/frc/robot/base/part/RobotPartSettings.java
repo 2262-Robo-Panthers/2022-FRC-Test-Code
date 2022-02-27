@@ -1,24 +1,21 @@
 package frc.robot.base.part;
 
-import frc.robot.base.Robot;
+import frc.robot.base.RobotContainer;
 
 public class RobotPartSettings {
     public boolean makeTaskRunner = true;
+    public boolean makeTeleOpTask = true;
 
     boolean initialized = false;
-    boolean started = false;
     boolean running = false;
+    boolean teleOpRunning = false;
 
 
-    public void init(Robot robot){
-        onInit(robot);
-    }
+    public void onInit(RobotContainer robot){}
 
-    public void onInit(Robot robot){}
+    public boolean canUse(){return initialized;}
 
-    public boolean canStart(){return initialized;}
+    public boolean isRunning(){return canUse() && makeTaskRunner && running;}
 
-    public boolean canUse(){return initialized && started;}
-
-    public boolean isRunning(){return canUse() && running;}
+    public boolean isTeleOpRunning(){return isRunning() && teleOpRunning;}
 }

@@ -3,7 +3,7 @@ package frc.robot.base.part;
 import java.util.Hashtable;
 import java.util.List;
 
-import frc.robot.base.Robot;
+import frc.robot.base.RobotContainer;
 
 public class RobotPartHardware{
     //hardware groups
@@ -13,5 +13,5 @@ public class RobotPartHardware{
     //////////////////
     //initialization//
     //////////////////
-    public void onInit(Robot robot){}
+    public void onInit(RobotContainer robot){}
 }

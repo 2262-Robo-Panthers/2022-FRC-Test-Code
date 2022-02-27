@@ -7,7 +7,7 @@ import frc.robot.other.task.TaskManager;
 
 import frc.robot.base.part.RobotPart;
 
-public class Robot {
+public class RobotContainer {
     private List<RobotPart> parts = new ArrayList<>();
 
     //Manager
@@ -19,10 +19,6 @@ public class Robot {
     //////////////////
     public void init(){
         initParts();
-    }
-
-    public void start(){
-        startParts();
         taskManager.start();
     }
 
@@ -45,14 +41,6 @@ public class Robot {
     }
     public void initParts(){
         initParts(parts);
-    }
-
-    public void startParts(List<RobotPart> parts){
-        for (RobotPart part: parts)
-            part.start();
-    }
-    public void startParts(){
-        startParts(parts);
     }
 
     public void stopParts(List<RobotPart> parts){
