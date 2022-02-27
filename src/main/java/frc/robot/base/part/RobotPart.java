@@ -5,20 +5,24 @@ import frc.robot.other.task.Task;
 
 import frc.robot.base.RobotContainer;
 
-public class RobotPart {
+public class RobotPart<HARDWARE extends RobotPartHardware, SETTINGS extends RobotPartSettings> {
     private String name;
     public RobotContainer robot;
-    public RobotPartHardware hardware;
-    public RobotPartSettings settings;
+    public HARDWARE hardware;
+    public SETTINGS settings;
     private TaskRunner taskRunner;
 
-    public RobotPart(String name, RobotContainer robot, RobotPartHardware hardware, RobotPartSettings settings){
+    public RobotPart(String name, RobotContainer robot, HARDWARE hardware, SETTINGS settings){
         this.name = name;
         this.robot = robot;
         this.hardware = hardware;
         this.settings = settings;
         onConstruct();
         robot.addPart(this);
+    }
+
+    public String getName(){
+        return name;
     }
 
     public void makeTaskRunner(){

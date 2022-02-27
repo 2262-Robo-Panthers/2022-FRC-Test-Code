@@ -2,19 +2,24 @@ package frc.robot.other.input;
 
 import java.util.function.Function;
 
-public class InputSupplierEx<INPUT> extends InputSupplier<INPUT, Float>{
-	private float minRegisterVal;
+public class InputSupplierEx<INPUT> extends InputSupplier<INPUT, Double>{
+	private double minRegisterVal;
 	//private int multiPressMaxTime; //add in later
 	private boolean wasButtonPressed = false;
 	private long lastButtonRelease = System.currentTimeMillis();
 	//private int numTimesPressed = 0; //add in later
 
-	public InputSupplierEx(Function<INPUT, Float> supplyFunction, INPUT divice, float minRegisterVal) {
+	public InputSupplierEx(Function<INPUT, Double> supplyFunction, INPUT divice, double minRegisterVal) {
 		super(supplyFunction, divice);
 		this.minRegisterVal = minRegisterVal;
 	}
 
-	public InputSupplierEx(Function<INPUT, Float> supplyFunction) {
+	public InputSupplierEx(Function<INPUT, Double> supplyFunction, double minRegisterVal) {
+		super(supplyFunction);
+		this.minRegisterVal = minRegisterVal;
+	}
+
+	public InputSupplierEx(Function<INPUT, Double> supplyFunction) {
 		super(supplyFunction);
 		minRegisterVal = 0.1f;
 	}
@@ -64,4 +69,13 @@ public class InputSupplierEx<INPUT> extends InputSupplier<INPUT, Float>{
 		return false;
 	}
 	boolean getButtonReleased(){return getButtonReleased(divice);}
+
+	public double getFiltered(INPUT device){
+		double val = get(divice);
+		return (Math.abs(val) < minRegisterVal) ? 0 : val;
+	}
+
+	public double getFiltered(){
+		return getFiltered(divice);
+	}
 }
